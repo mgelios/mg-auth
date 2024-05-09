@@ -1,7 +1,6 @@
 package router
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -19,12 +18,9 @@ func RunServer() {
 
 func Handler(router *chi.Mux) {
 	router.Route("/api/v1", func(router chi.Router) {
-		router.Post("/login", GetWeatherForCity)
+		router.Post("/login", HandleLogin)
 	})
 }
 
-func GetWeatherForCity(w http.ResponseWriter, r *http.Request) {
-	param := chi.URLParam(r, "city")
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode()
+func HandleLogin(w http.ResponseWriter, r *http.Request) {
 }

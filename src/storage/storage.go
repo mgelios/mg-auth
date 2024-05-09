@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"mg-auth/src/model"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -21,7 +22,7 @@ func initMongoClient() *mongo.Client {
 	}
 	client.Database("auth").CreateCollection(ctx, "user")
 	if err != nil {
-		fmt.Println("Error while creating geocoding")
+		fmt.Println("Error while creating user collection")
 	}
 	return client
 }
@@ -34,26 +35,26 @@ func initMongoClient() *mongo.Client {
 
 var mongo_client *mongo.Client = initMongoClient()
 
-func UpdateOneCallRecord(id string, record model.OneCallWeather) {
-	collection := mongo_client.Database("openweather").Collection("onecall")
+func UpdateUser(id string, record model.User) {
+	collection := mongo_client.Database("auth").Collection("user")
 	_, err := collection.UpdateByID(context.Background(), id, record)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func PutOneCallRecord(record model.OneCallWeather) {
-	collection := mongo_client.Database("openweather").Collection("onecall")
+func PutUser(record model.User) {
+	collection := mongo_client.Database("auth").Collection("user")
 	_, err := collection.InsertOne(context.Background(), record)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func GetOneCallRecordByCity(city string) (model.OneCallWeather, error) {
-	collection := mongo_client.Database("openweather").Collection("onecall")
-	result := model.OneCallWeather{}
-	filter := bson.D{{"city", city}}
+func GetUserById(id string) (model.User, error) {
+	collection := mongo_client.Database("auth").Collection("user")
+	result := model.User{}
+	filter := bson.D{{"id", id}}
 	err := collection.FindOne(context.Background(), filter).Decode(&result)
 	return result, err
 }
