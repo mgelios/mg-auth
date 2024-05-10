@@ -1,6 +1,8 @@
 package router
 
 import (
+	"encoding/json"
+	"mg-auth/src/model"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -23,4 +25,11 @@ func Handler(router *chi.Mux) {
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
+	var user model.User = model.User{}
+	err := json.NewDecoder(r.Body).Decode(&user)
+
+	if err != nil {
+		panic(err)
+	}
+
 }
