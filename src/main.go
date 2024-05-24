@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "mg-auth/src/router"
 
+func main() {
+	router.RunServer()
 }

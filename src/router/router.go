@@ -25,11 +25,14 @@ func Handler(router *chi.Mux) {
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	var user model.User = model.User{}
-	err := json.NewDecoder(r.Body).Decode(&user)
+	var loginRequest model.LoginRequest = model.LoginRequest{}
+
+	err := json.NewDecoder(r.Body).Decode(&loginRequest)
 
 	if err != nil {
 		panic(err)
 	}
 
+	res, _ := json.Marshal(loginRequest)
+	print(string(res))
 }
